@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { 
   Github, 
@@ -87,6 +87,8 @@ export default function Home() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
   const [previousMode, setPreviousMode] = useState(true);
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Estados para la máquina de escribir
   const [text, setText] = useState("");
@@ -181,9 +183,10 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      if (isScrollingRef.current) return;
 
       const sections = ['inicio', 'acerca', 'proyectos', 'servicios'];
-      const scrollPosition = window.scrollY + 150; 
+      const scrollPosition = window.scrollY + 150;
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -225,11 +228,33 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [text, isDeleting, loopNum, phrases, typingSpeed]);
 
+  // Animaciones al hacer scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      isScrollingRef.current = true;
       setActiveSection(id);
+      element.scrollIntoView({ behavior: 'smooth' });
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 900);
     }
   };
 
@@ -243,9 +268,9 @@ export default function Home() {
   const experienceMonths = (() => {
     const start = new Date(2026, 0, 5);
     const now = new Date();
-    let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
-    if (now.getDate() < start.getDate()) months--;
-    return months < 1 ? 1 : months;
+    // Conteo inclusivo: enero + febrero = 2 meses (igual que LinkedIn)
+    const months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth()) + 1;
+    return Math.max(1, months);
   })();
 
   return (
@@ -256,7 +281,7 @@ export default function Home() {
           className="fixed inset-0 pointer-events-none"
           style={{
             zIndex: -1,
-            background: !previousMode ? '#111827' : '#f9fafb',
+            background: !previousMode ? '#000000' : '#f9fafb',
             clipPath: `circle(0% at ${buttonPosition.x}px ${buttonPosition.y}px)`,
             animation: 'expandCircle 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
             '--x': `${buttonPosition.x}px`,
@@ -265,7 +290,7 @@ export default function Home() {
         />
       )}
 
-      <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans selection:bg-gray-300 dark:selection:bg-gray-700 relative">
+      <main className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100 font-sans selection:bg-gray-300 dark:selection:bg-gray-700 relative">
 
         {/* 2. INYECTAMOS EL SCRIPT PARA GOOGLE (JSON-LD) */}
       <script
@@ -274,19 +299,19 @@ export default function Home() {
       />
 
       {/* NAVBAR FLOTANTE */}
-      <nav className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 rounded-full border p-1.5 flex items-center gap-2 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-xl border-gray-200 dark:border-gray-700' 
-          : 'bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm border-gray-200 dark:border-gray-700'
+      <nav className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-full border p-1 md:p-1.5 flex items-center gap-1 md:gap-2 transition-all duration-300 max-w-[calc(100vw-1rem)] ${
+        scrolled
+          ? 'bg-white/90 dark:bg-black/90 backdrop-blur-md shadow-xl border-gray-200 dark:border-gray-800'
+          : 'bg-white/50 dark:bg-black/50 backdrop-blur-sm border-gray-200 dark:border-gray-800'
       }`}>
         <div className="flex bg-transparent rounded-full relative">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`relative px-5 py-2 text-sm font-medium rounded-full transition-all duration-300 z-10 ${
-                activeSection === item.id 
-                  ? 'text-white' 
+              className={`relative px-3 py-1.5 text-xs md:px-5 md:py-2 md:text-sm font-medium rounded-full transition-all duration-300 z-10 ${
+                activeSection === item.id
+                  ? 'text-white'
                   : 'text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white'
               }`}
             >
@@ -299,7 +324,7 @@ export default function Home() {
         </div>
         <button
           onClick={toggleDarkMode}
-          className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 ml-2 overflow-hidden"
+          className="relative p-1.5 md:p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 ml-1 md:ml-2 overflow-hidden"
           aria-label="Toggle dark mode"
         >
           <div className="relative w-5 h-5">
@@ -324,7 +349,7 @@ export default function Home() {
       {/* HERO SECTION */}
       <section id="inicio" className="pt-40 pb-20 px-4 md:px-8 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
         <div className="flex-1 space-y-6">
-          <div className="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-800 text-black dark:text-white border border-gray-200 dark:border-gray-700 rounded-full hover:scale-105 transition animation-300 text-sm font-semibold tracking-wide">
+          <div className="inline-block px-3 py-1 bg-gray-100 dark:bg-gray-900 text-black dark:text-white border border-gray-200 dark:border-gray-800 rounded-full hover:scale-105 transition animation-300 text-sm font-semibold tracking-wide">
             Disponible para trabajar
           </div>
           
@@ -333,7 +358,7 @@ export default function Home() {
           </h1>
           
           <div className="h-8 md:h-10 flex items-center">
-             <span className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">
+             <span className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-mono bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded">
                {text}
                <span className="animate-pulse ml-1 text-black dark:text-white">|</span>
              </span>
@@ -351,7 +376,7 @@ export default function Home() {
             <a
               href="/Jhan_Mocaico_CVv.pdf" 
               download="CV_Jhan_Mocaico.pdf"
-              className="px-6 py-3 text-gray-900 dark:text-gray-100 font-medium bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full hover:text-white dark:hover:text-black hover:bg-gray-900 dark:hover:bg-gray-700 transition hover:scale-105 flex items-center gap-2 cursor-pointer"
+              className="px-6 py-3 text-gray-900 dark:text-gray-100 font-medium bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full hover:text-white dark:hover:text-black hover:bg-gray-900 dark:hover:bg-gray-800 transition hover:scale-105 flex items-center gap-2 cursor-pointer"
             >
              Descargar CV <Download size={18} /> 
             </a>
@@ -371,7 +396,7 @@ export default function Home() {
         </div>
 
         <div className="flex-1 relative flex justify-center">
-          <div className="relative w-80 h-80 md:w-[450px] md:h-[450px] rounded-3xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition duration-500 border-4 border-white dark:border-gray-800 bg-gray-100 dark:bg-gray-800">
+          <div className="relative w-80 h-80 md:w-[450px] md:h-[450px] rounded-3xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition duration-500 border-4 border-white dark:border-gray-900 bg-gray-100 dark:bg-gray-900">
             <Image 
               src="/mocaico.jpeg" 
               alt="Jhan Mocaico" 
@@ -389,7 +414,7 @@ export default function Home() {
         <div className="flex flex-col md:flex-row gap-16 items-start">
           
           {/* IMAGEN IZQUIERDA */}
-          <div className="flex-1 w-full relative">
+          <div data-animate className="flex-1 w-full relative">
             <div className="relative w-full aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-gray-200 group">
                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10" />
                <Image 
@@ -409,7 +434,7 @@ export default function Home() {
           {/* INFORMACIÓN DERECHA */}
           <div className="flex-1 space-y-8">
             <div>
-              <h2 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">
+              <h2 data-animate className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">
                 Acerca de <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-600 to-gray-400 dark:from-white dark:via-gray-300 dark:to-gray-500">Mí</span>
               </h2>
              
@@ -420,14 +445,14 @@ export default function Home() {
               </div>
 
               {/* BLOQUE EDUCACIÓN */}
-              <div className="mb-8">
+              <div data-animate style={{ animationDelay: '150ms' }} className="mb-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-1 h-6 bg-black dark:bg-white rounded-full"></div>
                   <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Educación</h3>
                 </div>
                 
                 <div className="ml-4 border-l-2 border-gray-100 dark:border-gray-700 pl-6 pb-2 space-y-1 relative transition-all duration-300 hover:scale-105">
-                  <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-gray-300 dark:bg-gray-600 rounded-full border-2 border-white dark:border-gray-900 hover:scale-300 trasiton-all duration-300"></div>
+                  <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-gray-300 dark:bg-gray-600 rounded-full border-2 border-white dark:border-black hover:scale-300 trasiton-all duration-300"></div>
                   <h4 className="font-bold text-lg text-gray-500 dark:text-gray-400 hover:text-lg trasiton-all duration-300">{DATA.about.education.university}</h4>
                   <p className="text-gray-700 dark:text-gray-300 font-medium ">{DATA.about.education.degree}</p>
                   <p className="text-gray-400 dark:text-gray-500 text-sm italic hover:text-base transition-all duration-300">{DATA.about.education.status}</p>
@@ -436,14 +461,14 @@ export default function Home() {
 
           
               {/*Experiencia laboral*/}
-              <div className="mb-8">
+              <div data-animate style={{ animationDelay: '300ms' }} className="mb-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-1 h-6 bg-black dark:bg-white rounded-full"></div>
                   <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Experiencia Laboral</h3>
                 </div>
 
                 <div className="ml-4 border-l-2 border-gray-100 dark:border-gray-700 pl-6 pb-2 space-y-1 relative ">
-                  <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-gray-300 dark:bg-gray-600 rounded-full border-2 border-white dark:border-gray-900 hover:scale-300 trasiton-all duration-300"></div>
+                  <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 bg-gray-300 dark:bg-gray-600 rounded-full border-2 border-white dark:border-black hover:scale-300 trasiton-all duration-300"></div>
                   <h4 className="font-bold text-lg text-gray-500 dark:text-gray-400 hover:text-lg hover:text-xl trasiton-all duration-300">
                     <a href="https://galio.dev" target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-white transition-colors">Galio Electronics</a>
                   </h4>
@@ -455,7 +480,7 @@ export default function Home() {
               </div>
 
               {/* BLOQUE HABILIDADES (Skills) */}
-              <div>
+              <div data-animate style={{ animationDelay: '450ms' }}>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-1 h-6 bg-black dark:bg-white rounded-full"></div>
                   <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">Habilidades Técnicas</h3>
@@ -465,7 +490,7 @@ export default function Home() {
                   {DATA.about.skills.map((skill, index) => (
                     <span 
                       key={index} 
-                      className="px-4 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium hover:text-white dark:hover:text-black hover:bg-gray-900 dark:hover:bg-gray-200 transition-colors cursor-default"
+                      className="px-4 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm font-medium hover:text-white dark:hover:text-black hover:bg-gray-900 dark:hover:bg-gray-200 transition-colors cursor-default"
                     >
                       {skill}
                     </span>
@@ -479,18 +504,18 @@ export default function Home() {
       </section>
 
       {/* PROJECTS SECTION */}
-      <section id="proyectos" className="py-20 px-4 md:px-8 bg-gray-50 dark:bg-gray-800/50">
+      <section id="proyectos" className="py-20 px-4 md:px-8 bg-gray-50 dark:bg-gray-950/50">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div data-animate className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Proyectos Destacados</h2>
             <p className="text-gray-500 dark:text-gray-400">Algunos de los proyectos en los que he trabajado</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {DATA.projects.map((project, index) => (
-              <div key={index} className="group bg-white dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
+              <div key={index} data-animate style={{ animationDelay: `${index * 150}ms` }} className="group bg-white dark:bg-gray-900 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-800 hover:shadow-2xl transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
                 
-                <div className="h-48 relative overflow-hidden bg-gray-100 dark:bg-gray-700">
+                <div className="h-48 relative overflow-hidden bg-gray-100 dark:bg-gray-800">
                   <Image
                     src={project.image}
                     alt={project.title}
@@ -509,7 +534,7 @@ export default function Home() {
 
                   <div className="flex flex-wrap gap-2 mb-6">
                     {project.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="px-2 py-1 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 text-xs rounded-md font-medium">
+                      <span key={tIdx} className="px-2 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 text-xs rounded-md font-medium">
                         {tag}
                       </span>
                     ))}
@@ -526,16 +551,16 @@ export default function Home() {
       </section>
 
       {/* SERVICES SECTION */}
-      <section id="servicios" className="py-20 px-4 md:px-8 bg-white dark:bg-gray-900">
+      <section id="servicios" className="py-20 px-4 md:px-8 bg-white dark:bg-black">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div data-animate className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Mis Servicios</h2>
             <p className="text-gray-500 dark:text-gray-400">Lo que puedo hacer por ti y tu empresa</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {DATA.services.map((service, index) => (
-              <div key={index} className="p-8 rounded-3xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition duration-300 hover:-translate-y-2 cursor-default group">
+              <div key={index} data-animate style={{ animationDelay: `${index * 150}ms` }} className="p-8 rounded-3xl bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 hover:shadow-xl transition duration-300 hover:-translate-y-2 cursor-default group">
                 <div className="group-hover:scale-110 transition duration-300 origin-left text-black dark:text-white">
                     {service.icon}
                 </div>
@@ -568,8 +593,11 @@ export default function Home() {
             <a href={`mailto:${DATA.contact.email}`} className="hover:text-gray-300 transition"><Mail /></a>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-500">
-          © {new Date().getFullYear()} Jhan Mocaico. Todos los derechos reservados.
+        <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-500 space-y-1">
+          <p>© {new Date().getFullYear()} Jhan Mocaico. Todos los derechos reservados.</p>
+          <p>Operado por MOCAICO ESPIRITU JHAN JHOVER · RUC: 10600939489</p>
+          <p>Lima, Perú · +51 963 242 281 · <a href="mailto:jhan.mocaico@upch.pe" className="hover:text-gray-300 transition">jhan.mocaico@upch.pe</a></p>
+          <p><a href="/privacidad" className="hover:text-gray-300 transition underline">Política de Privacidad</a></p>
         </div>
       </footer>
 
