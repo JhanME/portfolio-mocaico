@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(git add:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nexperiencia-laboral\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
-      "Bash(git push)"
-    ]
-  }
-}

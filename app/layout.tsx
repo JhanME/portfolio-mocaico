@@ -50,32 +50,13 @@ export const metadata: Metadata = {
     siteName: "Jhan Mocaico Portfolio",
     title: "Jhan Mocaico | Ingeniero Informático",
     description: "Transformando ideas en soluciones reales con Software y Hardware. Especializado en IoT, Sistemas Embebidos y Desarrollo Web moderno.",
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Jhan Mocaico - Ingeniero Informático especializado en IoT y Desarrollo Web",
-        type: "image/png",
-      },
-    ],
   },
-  
+
   // 3. Configuración para tarjetas de Twitter / X
   twitter: {
     card: "summary_large_image",
     title: "Jhan Mocaico | Ingeniero Informático",
     description: "Transformando ideas en soluciones reales con Software y Hardware. Proyectos en IoT, Next.js y Sistemas Embebidos.",
-    // creator: "@tuUsuarioDeTwitter", // Descomenta y agrega tu usuario de Twitter/X
-    // site: "@tuUsuarioDeTwitter", // Descomenta si tienes un sitio de Twitter/X
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Jhan Mocaico - Ingeniero Informático",
-      },
-    ],
   },
   
   

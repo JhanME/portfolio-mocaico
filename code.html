@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FullStack Developer | Digital Craftsmanship</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts Replacement (Using Geist-like Inter & JetBrains Mono for the requested aesthetic) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'deep-charcoal': '#0a0a0a',
+            'accent-emerald': '#10b981',
+            'border-subtle': 'rgba(255, 255, 255, 0.08)',
+          },
+          fontFamily: {
+            'geist': ['Inter', 'sans-serif'],
+            'geist-mono': ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+<style data-purpose="typography">
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0a0a0a;
+      color: #fafafa;
+      -webkit-font-smoothing: antialiased;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    h1, h2, h3 {
+      letter-spacing: -0.02em;
+    }
+  </style>
+<style data-purpose="layout-effects">
+    .grid-lines {
+      background-image: 
+        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .text-gradient {
+      background: linear-gradient(to right, #ffffff, #a1a1aa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+</head>
+<body class="relative overflow-x-hidden">
+<!-- Background Grid -->
+<div class="fixed inset-0 grid-lines pointer-events-none z-0"></div>
+<!-- BEGIN: Navigation -->
+<nav class="fixed top-0 w-full z-50 border-b border-border-subtle bg-deep-charcoal/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+<div class="font-geist-mono font-bold text-lg tracking-tighter">
+        DEV<span class="text-accent-emerald">.</span>CORE
+      </div>
+<div class="hidden md:flex gap-12 font-geist-mono text-xs uppercase tracking-widest text-zinc-400">
+<a class="hover:text-accent-emerald transition-colors" href="#about">01. About</a>
+<a class="hover:text-accent-emerald transition-colors" href="#work">02. Work</a>
+<a class="hover:text-accent-emerald transition-colors" href="#contact">03. Contact</a>
+</div>
+<div class="text-xs font-geist-mono text-zinc-500">
+        v2.0.24 // STABLE
+      </div>
+</div>
+</nav>
+<!-- END: Navigation -->
+<main class="relative z-10">
+<!-- BEGIN: Hero Section -->
+<section class="min-h-screen flex items-center px-6 pt-20" data-purpose="hero-section">
+<div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Text Column -->
+<div class="lg:col-span-8 flex flex-col justify-center">
+<div class="font-geist-mono text-accent-emerald text-sm mb-6 flex items-center gap-2">
+<span class="w-2 h-2 bg-accent-emerald rounded-full animate-pulse"></span>
+            AVAILABLE FOR NEW CHALLENGES
+          </div>
+<h1 class="text-6xl md:text-8xl font-black text-gradient leading-[0.9] mb-8">
+            ENGINEERING <br/>
+            DIGITAL <br/>
+            PRECISION<span class="text-accent-emerald">_</span>
+</h1>
+<p class="max-w-xl text-zinc-400 text-lg md:text-xl font-geist leading-relaxed mb-10">
+            A Senior FullStack Architect specializing in scalable systems, 
+            high-performance interfaces, and the fine art of clean code.
+          </p>
+<div class="flex items-center gap-8">
+<a class="bg-white text-black px-8 py-4 font-geist-mono text-sm font-bold hover:bg-accent-emerald hover:text-white transition-all uppercase" href="#work">
+              View Projects
+            </a>
+<div class="hidden sm:block h-px w-24 bg-border-subtle"></div>
+<span class="hidden sm:block font-geist-mono text-[10px] text-zinc-600 uppercase tracking-widest">
+              Scroll to explore
+            </span>
+</div>
+</div>
+<!-- Abstract Visual Column -->
+<div class="lg:col-span-4 flex items-center justify-center relative">
+<div class="w-full aspect-square border border-border-subtle relative flex items-center justify-center overflow-hidden">
+<!-- Decorative Engine Element -->
+<div class="absolute inset-0 opacity-20">
+<svg class="w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="40" stroke="white" stroke-width="0.1"></circle>
+<circle cx="50" cy="50" fill="none" r="30" stroke="white" stroke-width="0.1"></circle>
+<path d="M50 10 L50 90 M10 50 L90 50" stroke="white" stroke-width="0.1"></path>
+</svg>
+</div>
+<div class="relative z-10 text-[200px] font-black text-zinc-900 select-none">
+              01
+            </div>
+<div class="absolute bottom-4 left-4 font-geist-mono text-[10px] text-zinc-500 uppercase">
+              // system_status: online
+            </div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Hero Section -->
+<!-- BEGIN: About Section -->
+<section class="py-32 border-t border-border-subtle px-6" data-purpose="about-section" id="about">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
+<div class="lg:col-span-4">
+<h2 class="font-geist-mono text-xs uppercase tracking-[0.4em] text-accent-emerald mb-4">
+            [ 01 ] Philosophy
+          </h2>
+<h3 class="text-4xl font-bold font-geist text-white">
+            Architecture meets aesthetics.
+          </h3>
+</div>
+<div class="lg:col-span-8">
+<div class="space-y-8 text-zinc-400 text-lg font-geist leading-relaxed">
+<p>
+              I believe that software should be as beautiful on the inside as it is on the outside. My approach combines rigorous engineering principles with a minimalist design sensibility.
+            </p>
+<p>
+              With over 8 years of experience building for the web, I focus on creating high-performance applications that don't just solve problems, but provide an intuitive and refined user experience.
+            </p>
+<!-- Skills Sub-grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 gap-8 pt-10">
+<div>
+<span class="block font-geist-mono text-[10px] text-accent-emerald uppercase mb-3">// Frontend</span>
+<ul class="font-geist-mono text-sm space-y-2 text-zinc-200">
+<li>React / Next.js</li>
+<li>TypeScript</li>
+<li>Tailwind / SCSS</li>
+<li>Three.js</li>
+</ul>
+</div>
+<div>
+<span class="block font-geist-mono text-[10px] text-accent-emerald uppercase mb-3">// Backend</span>
+<ul class="font-geist-mono text-sm space-y-2 text-zinc-200">
+<li>Node.js / Go</li>
+<li>PostgreSQL</li>
+<li>Redis</li>
+<li>GraphQL</li>
+</ul>
+</div>
+<div>
+<span class="block font-geist-mono text-[10px] text-accent-emerald uppercase mb-3">// Infrastructure</span>
+<ul class="font-geist-mono text-sm space-y-2 text-zinc-200">
+<li>AWS / Vercel</li>
+<li>Docker / K8s</li>
+<li>CI/CD Pipelines</li>
+<li>Terraform</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: About Section -->
+<!-- BEGIN: Work Section -->
+<section class="py-32 border-t border-border-subtle px-6 bg-zinc-950/30" data-purpose="projects-gallery" id="work">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+<div class="max-w-xl">
+<h2 class="font-geist-mono text-xs uppercase tracking-[0.4em] text-accent-emerald mb-4">
+              [ 02 ] Selected Projects
+            </h2>
+<h3 class="text-4xl md:text-5xl font-bold font-geist text-white">
+              A curated collection of digital artifacts.
+            </h3>
+</div>
+<div class="font-geist-mono text-xs text-zinc-500 uppercase mb-2">
+            Sorted by relevance / 2023-2024
+          </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Project Card 1 -->
+<div class="glass-card group flex flex-col" data-purpose="project-card">
+<div class="aspect-video bg-zinc-900 overflow-hidden relative border-b border-border-subtle">
+<div class="absolute inset-0 bg-accent-emerald/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+<span class="font-geist-mono text-xs text-white bg-black px-4 py-2">VIEW_CASE_STUDY</span>
+</div>
+<!-- Placeholder for high-quality project screenshot -->
+<img alt="NeuralFlow Interface" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWkV3EE_bjmhB5IpkIPl-uxVUrnc-xD_Qg-szNk0fdRKqr8HGsS8sD_PJo9-d_YPcSm5oUBgSFoG3b0PmwfueTLmeKLDMuZLwNqO8XTGznR9NOYyIe0yL7tsZmslWiUr3dh56zsRsSaqDKjhAGBaROEq8elM21Zx9a9Nsp6WVEEsG18XMCIhDVVSVNJpLpJFTuXSMhXC2SlIMtDczI5N0kIyf6QIgUiSCl0uLVM7sasiITe4Uid8eugVE-tOZjZ97euFbIuuvK6NJc"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h4 class="text-2xl font-bold font-geist text-white">NeuralFlow AI</h4>
+<span class="font-geist-mono text-[10px] text-zinc-500">01 / 04</span>
+</div>
+<p class="text-zinc-400 mb-6 font-geist line-clamp-2">
+                A distributed AI computing platform built with React, Rust, and WebGPU for real-time inference in the browser.
+              </p>
+<div class="flex flex-wrap gap-2">
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">TYPESCRIPT</span>
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">RUST</span>
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">WEBGPU</span>
+</div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="glass-card group flex flex-col md:translate-y-16" data-purpose="project-card">
+<div class="aspect-video bg-zinc-900 overflow-hidden relative border-b border-border-subtle">
+<div class="absolute inset-0 bg-accent-emerald/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+<span class="font-geist-mono text-xs text-white bg-black px-4 py-2">VIEW_CASE_STUDY</span>
+</div>
+<img alt="Vault Core FinTech" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb4x-FdbMGKntGT_ZMn6v731YZFtHHYzydm6_uQuPAT8UhZmEyKLX3J6kkp11BdQTCGuNAg6lwDJIpKj3v8veOFME6NpXsPzKPEssZD3OURSs7U-rFp2vq54xnSl3ZP4w_ihKpzvDQKhVBzIXsIuMAVFiWWPzGHa_BTzTm-sTLTQoolPV3ihLaoI5hwGp5inyOHLUr5vEud2pRFCLSmYQiuXggfrdPmkQv6wjtSZjiOrMg9SxMtN6_ueBNLNN_C0xCstM6DQj1hx7u"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h4 class="text-2xl font-bold font-geist text-white">Vault Core</h4>
+<span class="font-geist-mono text-[10px] text-zinc-500">02 / 04</span>
+</div>
+<p class="text-zinc-400 mb-6 font-geist line-clamp-2">
+                Enterprise-grade financial dashboard with real-time transaction processing and advanced data visualization.
+              </p>
+<div class="flex flex-wrap gap-2">
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">NEXT.JS</span>
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">POSTGRES</span>
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">D3.JS</span>
+</div>
+</div>
+</div>
+<!-- Project Card 3 -->
+<div class="glass-card group flex flex-col mt-0 md:mt-8" data-purpose="project-card">
+<div class="aspect-video bg-zinc-900 overflow-hidden relative border-b border-border-subtle">
+<div class="absolute inset-0 bg-accent-emerald/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+<span class="font-geist-mono text-xs text-white bg-black px-4 py-2">VIEW_CASE_STUDY</span>
+</div>
+<img alt="Atlas Design System" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5qySHSF6Y4Sy2O7RTNuLwpLX412I1364r4v1ykcaAfuigl-qVPZav17AYODiN0Xl_A1pIJGtRBu8bambdRyaUBfM6nyk828_DglFnw85BnU1OK3cmzFODX5F8pxZS-1meDXo_v5smbqgzuNhUcaM0ExSegkmfkpf59VFVMYnQICGthXysbY7tD_qZANprFrkpYrRSHDXO_tpJhgcftt3YMu8GVC5oTeybUEgvO2AGi7fEjaM1o6pfZkCzB0C17I9GWlVJXy4MZ6zZ"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h4 class="text-2xl font-bold font-geist text-white">Atlas Design System</h4>
+<span class="font-geist-mono text-[10px] text-zinc-500">03 / 04</span>
+</div>
+<p class="text-zinc-400 mb-6 font-geist line-clamp-2">
+                An open-source, headless UI library focused on accessibility and ultra-low bundle size.
+              </p>
+<div class="flex flex-wrap gap-2">
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">WEB COMPONENTS</span>
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">A11Y</span>
+</div>
+</div>
+</div>
+<!-- Project Card 4 -->
+<div class="glass-card group flex flex-col md:translate-y-24" data-purpose="project-card">
+<div class="aspect-video bg-zinc-900 overflow-hidden relative border-b border-border-subtle">
+<div class="absolute inset-0 bg-accent-emerald/10 opacity-0 group-hover:opacity-100 transition-opacity z-10 flex items-center justify-center">
+<span class="font-geist-mono text-xs text-white bg-black px-4 py-2">VIEW_CASE_STUDY</span>
+</div>
+<img alt="Prism Code Editor" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF6lqSTc6MlYR2-ACl0dY_EfQeqBxB3V6VIkSFStrYOOkmtjckyEKeS5be5HQF2BiXBmrv507my5DOoTJCP_IQg7g1Hj3RSkuBYoyvMXp7VU5Rvvv0kzUoJ33ST5cKp_PvfLp0WeD0tnQjXYlngqe0ACQ-NpXw7brJwXO7x71PgueSP3o3_Ot1DUH-0KMzKL9gKk6GGet5PCjVaT4xH-waDiD65pTlx3mQd7p1scoqbfH36PSywjcuezYADEj9a9MAho7naX-eMFCM"/>
+</div>
+<div class="p-8">
+<div class="flex justify-between items-start mb-4">
+<h4 class="text-2xl font-bold font-geist text-white">Prism Editor</h4>
+<span class="font-geist-mono text-[10px] text-zinc-500">04 / 04</span>
+</div>
+<p class="text-zinc-400 mb-6 font-geist line-clamp-2">
+                A collaborative code editor with Yjs integration for seamless pair programming and Git-like versioning.
+              </p>
+<div class="flex flex-wrap gap-2">
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">WEBSOCKETS</span>
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">CRDT</span>
+<span class="font-geist-mono text-[10px] border border-border-subtle px-2 py-1 text-zinc-500">GO</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Work Section -->
+<!-- BEGIN: Contact Section -->
+<section class="py-32 px-6 border-t border-border-subtle relative overflow-hidden" data-purpose="contact-section" id="contact">
+<!-- Decorative code block background -->
+<div class="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none hidden lg:block">
+<pre class="font-geist-mono text-4xl">          <code>
+            const contact = {
+              email: "hello@devcore.io",
+              status: "listening",
+              action: () =&gt; "lets_build"
+            };
+          </code>
+        </pre>
+</div>
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+<div>
+<h2 class="font-geist-mono text-xs uppercase tracking-[0.4em] text-accent-emerald mb-4">
+              [ 03 ] Contact
+            </h2>
+<h3 class="text-6xl font-black text-white mb-8">
+              LET'S <br/>CONNECT<span class="text-accent-emerald">.</span>
+</h3>
+<p class="text-zinc-400 text-lg font-geist max-w-sm mb-12">
+              Have a project in mind or just want to say hello? I'm always open to discussing new opportunities.
+            </p>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<span class="font-geist-mono text-[10px] text-zinc-600 uppercase">E-mail:</span>
+<a class="text-xl font-geist-mono hover:text-accent-emerald transition-colors" href="mailto:hello@devcore.io">hello@devcore.io</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="font-geist-mono text-[10px] text-zinc-600 uppercase">Social:</span>
+<div class="flex gap-4">
+<a class="font-geist-mono text-sm hover:text-white transition-colors" href="#">Twitter</a>
+<a class="font-geist-mono text-sm hover:text-white transition-colors" href="#">GitHub</a>
+<a class="font-geist-mono text-sm hover:text-white transition-colors" href="#">LinkedIn</a>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card p-8 md:p-12 relative">
+<form action="#" class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-geist-mono text-[10px] text-zinc-500 uppercase">Full Name</label>
+<input class="w-full bg-transparent border-b border-border-subtle focus:border-accent-emerald focus:ring-0 text-white font-geist p-0 pb-2 placeholder:text-zinc-800 transition-colors" placeholder="John Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-geist-mono text-[10px] text-zinc-500 uppercase">Email Address</label>
+<input class="w-full bg-transparent border-b border-border-subtle focus:border-accent-emerald focus:ring-0 text-white font-geist p-0 pb-2 placeholder:text-zinc-800 transition-colors" placeholder="john@company.com" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-geist-mono text-[10px] text-zinc-500 uppercase">Message</label>
+<textarea class="w-full bg-transparent border-b border-border-subtle focus:border-accent-emerald focus:ring-0 text-white font-geist p-0 pb-2 placeholder:text-zinc-800 transition-colors resize-none" placeholder="Brief project description..." rows="4"></textarea>
+</div>
+<button class="w-full md:w-auto bg-accent-emerald text-white px-10 py-4 font-geist-mono text-sm font-bold hover:bg-white hover:text-black transition-all uppercase mt-4" type="submit">
+                Send Transmission
+              </button>
+</form>
+</div>
+</div>
+</div>
+</section>
+<!-- END: Contact Section -->
+</main>
+<!-- BEGIN: Footer -->
+<footer class="py-12 border-t border-border-subtle px-6 relative z-10 bg-deep-charcoal" data-purpose="main-footer">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="font-geist-mono text-[10px] text-zinc-600 uppercase tracking-widest">
+        © 2024 DEV.CORE / ALL RIGHTS RESERVED
+      </div>
+<div class="flex gap-8 font-geist-mono text-[10px] text-zinc-600 uppercase tracking-widest">
+<span class="flex items-center gap-2"><span class="w-1 h-1 bg-accent-emerald rounded-full"></span> SYSTEM_ONLINE</span>
+<span>BERLIN, DE</span>
+</div>
+<div class="font-geist-mono text-[10px] text-zinc-400">
+        BUILT WITH <span class="text-accent-emerald">PRECISION</span>
+</div>
+</div>
+</footer>
+<!-- END: Footer -->
+<!-- BEGIN: Decorative Elements -->
+<script data-purpose="canvas-interactivity">
+    // Minimal interaction script could go here (e.g. mouse follower)
+    document.addEventListener('mousemove', (e) => {
+      // Subtle parallax effect on grid lines or other elements could be added here
+    });
+  </script>
+<!-- END: Decorative Elements -->
+</body></html>
