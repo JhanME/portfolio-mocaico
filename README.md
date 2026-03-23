@@ -1,44 +1,33 @@
-## Personal landig page
+# Portafolio - Jhan Mocaico
 
 <div align="center">
-<a href="https://mocaico.dev/">
-<img src="./public/mockup-1.png">
-</a>
-<p></p>
+  <a href="https://mocaico.dev/">
+    <img src="./public/mockup-1.png" alt="Mocaico.dev Mockup" width="100%">
+  </a>
+
+  <p>
+    <img src="https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-FFDD00?style=flat-square&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee" />          
+  </p>
 </div>
 
+##  Sobre el Proyecto
 
-## Getting Started
+Portafolio personal desarrollado como **FullStack Developer**. La aplicación destaca proyectos reales, experiencia técnica y la filosofía de desarrollo, optimizada para rendimiento y SEO utilizando el ecosistema moderno de React.
 
-First, run the development server:
+* **Framework:** [Next.js](https://nextjs.org/) (App Router)
+* **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+* **Fonts:** [Geist](https://vercel.com/font) para una tipografía moderna y minimalista.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##  Comenzando
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para replicar este entorno de desarrollo localmente:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Instalar dependencias:**
+   ```bash
+   npm install
+   # o
+   yarn install
