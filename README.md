@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="https://mocaico.dev/">
-    <img src="./public/mockup-1.png" alt="Mocaico.dev Mockup" width="100%">
+    <img src="./public/mockframe-export.svg" alt="Mocaico.dev Mockup" width="100%">
   </a>
 
   <p>
